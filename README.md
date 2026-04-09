@@ -207,10 +207,10 @@ db = FaceDatabase('data/faces')
 db.register(user_id=101, name="Nguyen Van B", image_path="path/to/photo.jpg")
 
 ## 📚 References
-Liu et al., Silent Face Anti-Spoofing, arXiv:2006.11460
-CASIA-FASD Dataset: http://www.cbsr.ia.ac.cn/english/FaceAntiSpoofingDatabases.asp
-Flask Docs: https://flask.palletsprojects.com
-PyTorch Docs: https://pytorch.org/docs
+# Liu et al., Silent Face Anti-Spoofing, arXiv:2006.11460
+# CASIA-FASD Dataset: http://www.cbsr.ia.ac.cn/english/FaceAntiSpoofingDatabases.asp
+# Flask Docs: https://flask.palletsprojects.com
+# PyTorch Docs: https://pytorch.org/docs
 
 ## 👥 Authors
 
