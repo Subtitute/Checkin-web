@@ -1,6 +1,6 @@
 # 🎓 Check-in Web - Face Recognition + Anti-Spoofing
 
-> 📌 **Đồ án tốt nghiệp** | [Your Name] | [University Name] | 2024
+> 📌 **Đồ án tốt nghiệp** | Dương Minh Quang | Đại học Xây Dựng Hà Nội | 2026
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.3+-lightgrey)](https://flask.palletsprojects.com)
