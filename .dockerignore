@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.git
+.vscode
+data/raw/*
+data/faces/*
+data/processed/*
+datasets/*
+*.npy
+.DS_Store

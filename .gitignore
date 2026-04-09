@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.egg-info/
+
+# Data & Models (file nặng)
+data/
+datasets/
+datasets_organized/
+models/
+*.pt
+*.pth
+*.onnx
+*.h5
+saved_logs/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

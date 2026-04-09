@@ -1,0 +1,15 @@
+opencv-python-headless
+insightface
+onnxruntime
+pandas
+numpy
+tqdm
+requests
+torch
+torchvision
+torchaudio
+matplotlib
+scikit-learn
+openpyxl
+python-docx
+flask
