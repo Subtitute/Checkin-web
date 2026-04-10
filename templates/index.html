@@ -3,37 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chấm Công AI | Thân Thiện</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Chấm Công AI | Tự Động</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            /* Bảng màu mới: Nhẹ nhàng, thân thiện */
-            --bg-gradient: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); /* Tím pastel pha xanh */
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --primary: #6c5ce7; /* Tím dịu */
-            --primary-hover: #5b4bc4;
-            --secondary: #a29bfe;
-            
-            --success: #00b894; /* Xanh ngọc dịu */
-            --success-bg: #e3f9f4;
-            --warning: #fdcb6e; /* Vàng nắng dịu */
-            --warning-bg: #fef9e7;
-            --danger: #ff7675; /* Đỏ hồng dịu */
-            --danger-bg: #ffeaea;
-            
+            --bg-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); /* Pastel nhẹ nhàng */
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --primary: #6c5ce7;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #ff7675;
             --text-dark: #2d3436;
             --text-light: #636e72;
-            --border-radius: 24px;
-            --btn-radius: 50px;
-            --shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+            --shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Nunito', sans-serif; /* Font tròn trịa, thân thiện hơn Poppins */
+            font-family: 'Nunito', sans-serif;
             background: var(--bg-gradient);
             min-height: 100vh;
             display: flex;
@@ -46,402 +36,265 @@
         .container {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: var(--border-radius);
-            padding: 40px 30px;
+            border-radius: 30px;
+            padding: 40px;
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
             box-shadow: var(--shadow);
             text-align: center;
-            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .header { margin-bottom: 30px; }
-        .header h1 {
-            font-size: 26px;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            letter-spacing: -0.5px;
+        /* Header với đồng hồ thời gian thực */
+        .header { margin-bottom: 25px; }
+        .header h1 { font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
+        .realtime-clock { font-size: 32px; font-weight: 700; color: var(--text-dark); letter-spacing: 1px; font-variant-numeric: tabular-nums; }
+        .status-badge-auto { 
+            display: inline-block; margin-top: 10px; padding: 6px 16px; 
+            border-radius: 20px; font-size: 14px; font-weight: 800; text-transform: uppercase;
+            background: #dfe6e9; color: var(--text-light); transition: all 0.3s;
         }
-        .header p { color: var(--text-light); font-size: 14px; font-weight: 600; }
+        .status-badge-auto.mode-in { background: var(--success); color: white; box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4); }
+        .status-badge-auto.mode-out { background: var(--danger); color: white; box-shadow: 0 4px 15px rgba(255, 118, 117, 0.4); }
 
-        /* Mode Switcher - Dạng Pill */
-        .mode-switcher {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.5);
-            padding: 6px;
-            border-radius: 16px;
-        }
-
-        .mode-btn {
-            border: none;
-            background: transparent;
-            padding: 12px 8px;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-light);
-            cursor: pointer;
-            border-radius: 12px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .mode-btn i { font-size: 18px; transition: transform 0.3s; }
-        
-        .mode-btn.active {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.15);
-            transform: translateY(-2px);
-        }
-        
-        .mode-btn:hover:not(.active) { background: rgba(255,255,255,0.4); color: var(--primary); }
-        .mode-btn.active i { transform: scale(1.1); }
-
-        /* Camera */
+        /* Camera Frame */
         .camera-wrapper {
             position: relative;
             width: 100%;
             aspect-ratio: 4/3;
             background: #000;
-            border-radius: 20px;
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
             margin-bottom: 25px;
-            border: 4px solid white;
+            border: 5px solid white;
         }
-
         video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
-
-        .overlay {
-            position: absolute;
-            top: 50%; left: 50%;
+        
+        /* Khung quét tự động */
+        .scan-frame {
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 65%; height: 65%;
-            border: 2px solid rgba(255, 255, 255, 0.8);
+            width: 70%; height: 70%;
+            border: 2px solid rgba(255,255,255,0.6);
             border-radius: 16px;
-            box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 0 999px rgba(0,0,0,0.6);
             pointer-events: none;
-            transition: border-color 0.3s;
         }
-
-        .overlay::before {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 20px;
-            border: 3px solid transparent;
-            border-top-color: currentColor;
-            border-bottom-color: currentColor;
-            animation: spin 4s linear infinite;
+        .scan-line {
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+            animation: scan 2s linear infinite;
+            opacity: 0.8;
         }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
 
-        /* Action Buttons */
-        .action-btn {
-            width: 100%;
-            padding: 18px;
-            border: none;
-            border-radius: var(--btn-radius);
-            font-size: 16px;
-            font-weight: 800;
-            color: white;
-            cursor: pointer;
+        /* Trạng thái hoạt động */
+        .activity-log {
+            background: #f1f2f6;
+            border-radius: 16px;
+            padding: 15px;
+            min-height: 80px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px -5px rgba(0,0,0,0.2);
-            margin-bottom: 12px;
-            position: relative;
-            overflow: hidden;
+            align-items: center;
+            margin-bottom: 20px;
+            transition: all 0.3s;
         }
-
-        .action-btn::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
-            pointer-events: none;
-        }
-
-        .action-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 12px 25px -5px rgba(0,0,0,0.3); }
-        .action-btn:active:not(:disabled) { transform: translateY(-1px); }
-        .action-btn:disabled { background: #dfe6e9; cursor: not-allowed; transform: none; box-shadow: none; }
-
-        /* Màu sắc theo chế độ */
-        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
-        .btn-warning { background: linear-gradient(135deg, var(--warning), #f39c12); }
-        .btn-success { background: linear-gradient(135deg, var(--success), #00cec9); }
+        .log-text { font-size: 16px; color: var(--text-light); font-weight: 600; }
+        .log-highlight { font-size: 18px; font-weight: 800; color: var(--primary); margin-top: 4px; display: block; }
         
-        body.mode-register .overlay { color: var(--warning); }
-        body.mode-checkin .overlay { color: var(--success); }
-        body.mode-checkout .overlay { color: var(--danger); }
-
-        /* Spinner */
-        .spinner {
-            width: 22px; height: 22px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 1s infinite;
-            display: none;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Toast Notification - Mềm mại hơn */
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 12px; }
+        .activity-log.success { background: var(--success); color: white; transform: scale(1.02); }
+        .activity-log.success .log-text, .activity-log.success .log-highlight { color: white; }
         
+        .activity-log.waiting { background: var(--warning); color: #d35400; }
+        .activity-log.waiting .log-text { color: #d35400; }
+
+        /* Nút điều khiển nhỏ */
+        .controls { display: flex; gap: 10px; justify-content: center; }
+        .btn-small {
+            padding: 10px 20px; border: none; border-radius: 12px;
+            font-weight: 700; cursor: pointer; font-size: 13px;
+            background: white; color: var(--text-dark);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+        .btn-small:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        .btn-excel { background: var(--success); color: white; }
+
+        /* Toast */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; }
         .toast {
-            background: white;
-            padding: 16px 20px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            min-width: 320px;
-            max-width: 400px;
-            transform: translateX(120%);
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            border-left: 6px solid;
+            background: white; padding: 15px 20px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex; align-items: center; gap: 12px;
+            min-width: 300px; margin-top: 10px;
+            transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            border-left: 6px solid var(--primary);
         }
-
         .toast.show { transform: translateX(0); }
         .toast.success { border-left-color: var(--success); }
-        .toast.error { border-left-color: var(--danger); }
-        .toast.warning { border-left-color: var(--warning); }
+        .toast-icon { font-size: 20px; color: var(--success); }
+        .toast-content strong { display: block; font-size: 15px; }
+        .toast-content small { color: var(--text-light); font-size: 13px; }
 
-        .toast-icon { font-size: 22px; margin-top: 2px; }
-        .toast.success .toast-icon { color: var(--success); }
-        .toast.error .toast-icon { color: var(--danger); }
-        .toast.warning .toast-icon { color: var(--warning); }
-
-        .toast-content strong { display: block; margin-bottom: 4px; color: var(--text-dark); font-size: 15px; font-weight: 700; }
-        .toast-content small { color: var(--text-light); font-size: 13px; line-height: 1.5; display: block; }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 800;
-            margin-top: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .status-badge.checkin { background: var(--success-bg); color: var(--success); }
-        .status-badge.checkout { background: var(--danger-bg); color: var(--danger); }
-
-        /* Modal */
-        .modal {
-            display: none; position: fixed; inset: 0;
-            background: rgba(45, 52, 54, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s;
-        }
-        .modal.show { opacity: 1; }
-        
-        .modal-content {
-            background: white;
-            padding: 35px;
-            border-radius: 24px;
-            width: 90%; max-width: 400px;
-            text-align: left;
-            transform: scale(0.9); transition: transform 0.3s;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-        }
-        .modal.show .modal-content { transform: scale(1); }
-
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--text-dark); font-size: 14px; }
-        .form-group input {
-            width: 100%; padding: 14px;
-            border: 2px solid #dfe6e9;
-            border-radius: 12px;
-            font-family: inherit;
-            outline: none;
-            transition: all 0.2s;
-            font-size: 14px;
-        }
-        .form-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.1); }
-        
-        .modal-actions { display: flex; gap: 12px; margin-top: 25px; }
-        .btn-confirm { flex: 1; padding: 14px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
-        .btn-ok { background: var(--primary); color: white; }
-        .btn-cancel { background: #f1f2f6; color: var(--text-light); }
-        .btn-confirm:hover { transform: translateY(-2px); }
-
-        @media (max-width: 480px) {
-            .toast-container { right: 50%; transform: translateX(50%); width: 90%; }
-            .mode-switcher { grid-template-columns: 1fr; gap: 8px; }
-            .container { padding: 30px 20px; }
-        }
+        canvas { display: none; }
     </style>
 </head>
-<body class="mode-checkin">
+<body>
 
     <div class="container">
         <div class="header">
-            <h1><i class="fas fa-face-smile"></i> Chấm Công AI</h1>
-            <p id="mode-desc">Chế độ: Check-In (Vào ca)</p>
-        </div>
-
-        <div class="mode-switcher">
-            <button class="mode-btn register" onclick="setMode('register')">
-                <i class="fas fa-user-plus"></i> Đăng Ký
-            </button>
-            <button class="mode-btn checkin active" onclick="setMode('checkin')">
-                <i class="fas fa-door-open"></i> Check-In
-            </button>
-            <button class="mode-btn checkout" onclick="setMode('checkout')">
-                <i class="fas fa-door-closed"></i> Check-Out
-            </button>
+            <h1><i class="fas fa-robot"></i> Chấm Công Tự Động</h1>
+            <div class="realtime-clock" id="clock">00:00:00</div>
+            <div id="modeBadge" class="status-badge-auto mode-in">
+                <i class="fas fa-sign-in-alt"></i> Đang chế độ: CHECK-IN
+            </div>
         </div>
 
         <div class="camera-wrapper">
             <video id="video" autoplay playsinline></video>
-            <div class="overlay"></div>
+            <div class="scan-frame">
+                <div class="scan-line"></div>
+            </div>
         </div>
 
-        <!-- Nút chính thay đổi màu theo mode -->
-        <button id="actionBtn" class="action-btn btn-primary" onclick="handleAction()">
-            <span class="btn-text"><i class="fas fa-camera"></i> Điểm Danh Ngay</span>
-            <div class="spinner"></div>
-        </button>
+        <!-- Khu vực hiển thị trạng thái -->
+        <div id="activityLog" class="activity-log">
+            <span class="log-text"><i class="fas fa-spinner fa-spin"></i> Đang quét khuôn mặt...</span>
+            <span class="log-highlight" id="lastAction">Chờ phát hiện</span>
+        </div>
 
-        <!-- Nút Excel luôn màu xanh ngọc -->
-        <button class="action-btn btn-success" onclick="downloadExcel()" style="margin-top: 8px; font-size: 15px;">
-            <i class="fas fa-file-excel"></i> Xuất Báo Cáo
-        </button>
+        <div class="controls">
+            <button class="btn-small" onclick="togglePause()" id="pauseBtn">
+                <i class="fas fa-pause"></i> Tạm dừng
+            </button>
+            <button class="btn-small btn-excel" onclick="downloadExcel()">
+                <i class="fas fa-file-excel"></i> Xuất Excel
+            </button>
+        </div>
     </div>
 
     <div class="toast-container" id="toastContainer"></div>
     <canvas id="canvas"></canvas>
 
-    <!-- Modal Đăng Ký -->
-    <div class="modal" id="registerModal">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 25px; color: var(--text-dark); font-size: 20px; text-align: center;">
-                <i class="fas fa-user-plus" style="color: var(--warning)"></i> Đăng Ký Mới
-            </h2>
-            <div class="form-group">
-                <label>Mã Nhân Viên / Sinh Viên</label>
-                <input type="text" id="regId" placeholder="Ví dụ: NV001">
-            </div>
-            <div class="form-group">
-                <label>Họ và Tên</label>
-                <input type="text" id="regName" placeholder="Ví dụ: Nguyen Van A">
-            </div>
-            <div class="modal-actions">
-                <button class="btn-confirm btn-cancel" onclick="closeModal()">Hủy</button>
-                <button class="btn-confirm btn-ok" onclick="confirmRegistration()">Lưu Thông Tin</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        let currentMode = 'checkin';
-        const SERVER_URL = 'http://localhost:5000/api/checkin'; 
+        const SERVER_URL = 'http://localhost:5000/api/checkin';
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
-        const actionBtn = document.getElementById('actionBtn');
-        const btnText = actionBtn.querySelector('.btn-text');
-        const spinner = actionBtn.querySelector('.spinner');
-        const modeDesc = document.getElementById('mode-desc');
-        const modal = document.getElementById('registerModal');
+        const clockEl = document.getElementById('clock');
+        const modeBadge = document.getElementById('modeBadge');
+        const activityLog = document.getElementById('activityLog');
+        const lastActionEl = document.getElementById('lastAction');
+        const pauseBtn = document.getElementById('pauseBtn');
 
+        let isPaused = false;
+        let lastScanTime = 0;
+        const SCAN_INTERVAL = 2000; // Quét mỗi 2 giây để tránh spam server
+        const COOLDOWN_TIME = 300000; // 5 phút cooldown sau khi check-in thành công cho 1 người
+
+        // Lưu trữ thời gian check-in cuối cùng của từng người để tránh trùng lặp
+        // Format: { "NV001": 171234567890 }
+        let userCooldowns = {}; 
+
+        // 1. Đồng hồ thời gian thực & Tự động đổi chế độ
+        function updateClock() {
+            const now = new Date();
+            clockEl.innerText = now.toLocaleTimeString('vi-VN');
+            
+            // Tự động xác định chế độ dựa trên giờ
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const currentTimeVal = hours * 60 + minutes;
+
+            // Quy ước: Trước 13h00 là Check-in, sau 13h00 là Check-out
+            // Bạn có thể sửa ngưỡng này tùy ý
+            const threshold = 13 * 60; 
+            
+            if (currentTimeVal < threshold) {
+                setModeVisual('checkin');
+            } else {
+                setModeVisual('checkout');
+            }
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function setModeVisual(mode) {
+            if (mode === 'checkin') {
+                modeBadge.innerHTML = '<i class="fas fa-sign-in-alt"></i> Chế độ: CHECK-IN (Vào ca)';
+                modeBadge.className = 'status-badge-auto mode-in';
+            } else {
+                modeBadge.innerHTML = '<i class="fas fa-sign-out-alt"></i> Chế độ: CHECK-OUT (Tan ca)';
+                modeBadge.className = 'status-badge-auto mode-out';
+            }
+        }
+
+        // 2. Khởi động Camera
         async function startCamera() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } } });
                 video.srcObject = stream;
+                requestAnimationFrame(processFrame); // Bắt đầu vòng lặp xử lý
             } catch (err) {
-                showToast('error', 'Lỗi Camera', 'Không thể truy cập camera. Vui lòng kiểm tra quyền.');
+                showToast('error', 'Lỗi Camera', 'Không thể truy cập camera.');
             }
         }
         startCamera();
 
-        function setMode(mode) {
-            currentMode = mode;
-            document.body.className = `mode-${mode}`;
-            
-            // Reset classes
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector(`.mode-btn.${mode}`).classList.add('active');
+        // 3. Vòng lặp xử lý khung hình (Auto Scan)
+        async function processFrame() {
+            if (!isPaused && video.readyState === video.HAVE_ENOUGH_DATA) {
+                const now = Date.now();
+                
+                // Chỉ gửi ảnh lên server nếu đã đủ thời gian quét (SCAN_INTERVAL)
+                if (now - lastScanTime > SCAN_INTERVAL) {
+                    captureAndSendAuto();
+                    lastScanTime = now;
+                }
+            }
+            requestAnimationFrame(processFrame);
+        }
 
-            // Update Text & Button Style
-            actionBtn.className = 'action-btn'; // Reset class
-            if(mode === 'register') {
-                modeDesc.innerText = "Chế độ: Đăng Ký Người Mới";
-                btnText.innerHTML = '<i class="fas fa-user-plus"></i> Đăng Ký Khuôn Mặt';
-                actionBtn.classList.add('btn-warning');
-            } else if (mode === 'checkin') {
-                modeDesc.innerText = "Chế độ: Check-In (Vào ca)";
-                btnText.innerHTML = '<i class="fas fa-door-open"></i> Check-In Ngay';
-                actionBtn.classList.add('btn-primary');
+        function togglePause() {
+            isPaused = !isPaused;
+            if (isPaused) {
+                pauseBtn.innerHTML = '<i class="fas fa-play"></i> Tiếp tục';
+                activityLog.className = 'activity-log waiting';
+                lastActionEl.innerText = "Đã tạm dừng";
             } else {
-                modeDesc.innerText = "Chế độ: Check-Out (Tan ca)";
-                btnText.innerHTML = '<i class="fas fa-door-closed"></i> Check-Out Ngay';
-                actionBtn.classList.add('btn-primary'); // Hoặc màu khác nếu muốn
+                pauseBtn.innerHTML = '<i class="fas fa-pause"></i> Tạm dừng';
+                activityLog.className = 'activity-log';
+                lastActionEl.innerText = "Đang quét...";
+                lastScanTime = 0; // Reset để quét ngay
             }
         }
 
-        function handleAction() {
-            if (currentMode === 'register') {
-                document.getElementById('regId').value = '';
-                document.getElementById('regName').value = '';
-                modal.style.display = 'flex';
-                setTimeout(() => modal.classList.add('show'), 10);
-                document.getElementById('regId').focus();
-            } else {
-                captureAndSend(currentMode);
-            }
-        }
+        async function captureAndSendAuto() {
+            // Xác định mode hiện tại dựa trên giờ
+            const now = new Date();
+            const hours = now.getHours();
+            const currentMode = (hours < 13) ? 'checkin' : 'checkout';
 
-        function closeModal() {
-            modal.classList.remove('show');
-            setTimeout(() => modal.style.display = 'none', 300);
-        }
-
-        function confirmRegistration() {
-            const id = document.getElementById('regId').value.trim();
-            const name = document.getElementById('regName').value.trim();
-            if (!id || !name) { alert('Vui lòng điền đầy đủ thông tin!'); return; }
-            closeModal();
-            captureAndSend('register', id, name);
-        }
-
-        async function captureAndSend(mode, regId = null, regName = null) {
-            actionBtn.disabled = true;
-            btnText.style.display = 'none';
-            spinner.style.display = 'block';
+            const tempCanvas = document.createElement('canvas');
+            const width = 640, height = 480;
+            tempCanvas.width = width; tempCanvas.height = height;
+            const ctx = tempCanvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, width, height);
+            const imageData = tempCanvas.toDataURL('image/jpeg', 0.7);
 
             try {
-                const tempCanvas = document.createElement('canvas');
-                const width = 640, height = 480;
-                tempCanvas.width = width; tempCanvas.height = height;
-                const ctx = tempCanvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, width, height);
-                const imageData = tempCanvas.toDataURL('image/jpeg', 0.7);
-
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 120000);
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // Timeout ngắn hơn cho auto
 
-                const payload = { image: imageData, mode: mode, reg_id: regId, reg_name: regName };
+                const payload = { 
+                    image: imageData, 
+                    mode: currentMode 
+                    // Không gửi reg_id/reg_name vì đây là mode auto
+                };
 
                 const response = await fetch(SERVER_URL, {
                     method: 'POST',
@@ -453,51 +306,67 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    if (mode === 'register') {
-                        showToast('success', 'Đăng Ký Thành Công', `
-                            Đã lưu khuôn mặt cho <strong>${regName}</strong> (${regId})
-                            <small><i class="far fa-clock"></i> ${data.timestamp || new Date().toLocaleTimeString('vi-VN')}</small>
-                        `);
+                    const pid = data.id;
+                    const name = data.name;
+                    const nowTs = Date.now();
+
+                    // Kiểm tra Cooldown cho người này
+                    if (userCooldowns[pid] && (nowTs - userCooldowns[pid] < COOLDOWN_TIME)) {
+                        // Vẫn trong thời gian chờ, không làm gì cả hoặc hiển thị nhẹ
+                        // console.log(`User ${pid} đang trong cooldown`);
                     } else {
-                        const badgeClass = data.type === 'CHECK_IN' ? 'checkin' : 'checkout';
-                        const badgeText = data.type === 'CHECK_IN' ? 'Vào Ca' : 'Tan Ca';
+                        // Thành công thật sự -> Cập nhật UI và Cooldown
+                        userCooldowns[pid] = nowTs;
                         
-                        showToast('success', 'Điểm Danh Thành Công', `
-                            <strong>${data.name}</strong> (${data.id})
-                            <span class="status-badge ${badgeClass}">${badgeText}</span>
-                            <small><i class="far fa-clock"></i> ${data.timestamp}</small>
-                        `);
+                        const badgeText = data.type === 'CHECK_IN' ? 'VÀO CA' : 'TAN CA';
+                        const colorClass = data.type === 'CHECK_IN' ? 'success' : 'waiting'; // Màu xanh hoặc cam
+                        
+                        activityLog.className = `activity-log success`;
+                        lastActionEl.innerHTML = `
+                            <i class="fas fa-check-circle"></i> ${name}<br>
+                            <small style="font-weight:600; font-size:14px; opacity:0.9">${badgeText} lúc ${data.timestamp.split(' - ')[0]}</small>
+                        `;
+                        
+                        showToast('success', 'Thành Công', `${name} đã ${badgeText.toLowerCase()}!`);
+                        
+                        // Reset trạng thái log sau 3 giây
+                        setTimeout(() => {
+                            if(!isPaused) {
+                                activityLog.className = 'activity-log';
+                                lastActionEl.innerText = "Chờ phát hiện tiếp theo...";
+                            }
+                        }, 4000);
                     }
                 } else {
-                    if (data.type === 'SPOOF') showToast('warning', 'Phát Hiện Giả Mạo', 'Vui lòng đưa khuôn mặt thật vào camera.');
-                    else if (data.type === 'UNKNOWN' && mode !== 'register') showToast('error', 'Không Tìm Thấy', 'Khuôn mặt chưa được đăng ký.');
-                    else showToast('error', 'Thất Bại', data.message);
+                    // Không tìm thấy mặt hoặc giả mạo -> Reset log nhẹ nhàng
+                    if(data.type !== 'UNKNOWN') {
+                         // Chỉ hiện log nếu lỗi nghiêm trọng (như giả mạo)
+                         if(data.type === 'SPOOF') {
+                             activityLog.className = 'activity-log waiting';
+                             lastActionEl.innerText = "⚠️ Phát hiện giả mạo!";
+                             setTimeout(() => { if(!isPaused) { activityLog.className='activity-log'; lastActionEl.innerText="Chờ phát hiện..."} }, 2000);
+                         }
+                    }
                 }
             } catch (error) {
-                showToast('error', 'Lỗi Kết Nối', error.message.includes('fetch') ? 'Không thể kết nối Server' : error.message);
-            } finally {
-                actionBtn.disabled = false;
-                btnText.style.display = 'inline-flex';
-                spinner.style.display = 'none';
+                console.error("Auto scan error:", error);
             }
         }
 
         async function downloadExcel() {
+            // Giữ nguyên hàm xuất excel như cũ
             const btn = event.currentTarget;
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
-            btn.disabled = true;
-
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
             try {
                 const response = await fetch('/api/export-excel');
-                if (!response.ok) throw new Error('Không thể xuất file');
-
+                if (!response.ok) throw new Error('Lỗi');
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                const disposition = response.headers.get('Content-Disposition');
                 let filename = "Bao_Cao_Cham_Cong.xlsx";
+                const disposition = response.headers.get('Content-Disposition');
                 if (disposition && disposition.indexOf('attachment') !== -1) {
                     const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition);
                     if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
@@ -507,26 +376,23 @@
                 a.click();
                 window.URL.revokeObjectURL(url);
                 document.body.removeChild(a);
-                showToast('success', 'Thành Công', 'Đã tải báo cáo Excel xuống!');
+                showToast('success', 'Thành Công', 'Đã tải báo cáo Excel!');
             } catch (error) {
                 showToast('error', 'Thất Bại', error.message);
             } finally {
                 btn.innerHTML = originalText;
-                btn.disabled = false;
             }
         }
 
         function showToast(type, title, message) {
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            let icon = type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-times-circle' : 'fa-exclamation-triangle');
-            toast.innerHTML = `<i class="fas ${icon} toast-icon"></i><div class="toast-content"><strong>${title}</strong>${message}</div>`;
+            let icon = type === 'success' ? 'fa-check-circle' : 'fa-times-circle';
+            toast.innerHTML = `<i class="fas ${icon} toast-icon"></i><div class="toast-content"><strong>${title}</strong><small>${message}</small></div>`;
             document.getElementById('toastContainer').appendChild(toast);
             setTimeout(() => toast.classList.add('show'), 10);
-            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 6000);
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 4000);
         }
-
-        window.onclick = function(event) { if (event.target == modal) closeModal(); }
     </script>
 </body>
 </html>
