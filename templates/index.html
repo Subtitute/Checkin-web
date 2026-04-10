@@ -3,137 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Chấm Công AI | Đa Chức Năng</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Chấm Công AI | Thân Thiện</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary: #4e54c8; --secondary: #8f94fb;
-            --success: #10b981; --warning: #f59e0b; --danger: #ef4444;
-            --dark: #1f2937; --light: #6b7280;
+            /* Bảng màu mới: Nhẹ nhàng, thân thiện */
+            --bg-gradient: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); /* Tím pastel pha xanh */
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --primary: #6c5ce7; /* Tím dịu */
+            --primary-hover: #5b4bc4;
+            --secondary: #a29bfe;
+            
+            --success: #00b894; /* Xanh ngọc dịu */
+            --success-bg: #e3f9f4;
+            --warning: #fdcb6e; /* Vàng nắng dịu */
+            --warning-bg: #fef9e7;
+            --danger: #ff7675; /* Đỏ hồng dịu */
+            --danger-bg: #ffeaea;
+            
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --border-radius: 24px;
+            --btn-radius: 50px;
+            --shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+            font-family: 'Nunito', sans-serif; /* Font tròn trịa, thân thiện hơn Poppins */
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-dark);
         }
+
         .container {
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
-            border-radius: 24px; padding: 30px; width: 100%; max-width: 500px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
         }
-        .header h1 { font-size: 22px; color: var(--dark); margin-bottom: 5px; display:flex; align-items:center; justify-content:center; gap:10px; }
-        .header p { color: var(--light); font-size: 13px; margin-bottom: 20px; }
 
+        .header { margin-bottom: 30px; }
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+        }
+        .header p { color: var(--text-light); font-size: 14px; font-weight: 600; }
+
+        /* Mode Switcher - Dạng Pill */
         .mode-switcher {
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px;
-            background: #f3f4f6; padding: 5px; border-radius: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 6px;
+            border-radius: 16px;
         }
-        .mode-btn {
-            border: none; background: transparent; padding: 10px 5px;
-            font-size: 12px; font-weight: 600; color: var(--light);
-            cursor: pointer; border-radius: 8px; transition: all 0.3s;
-            display: flex; flex-direction: column; align-items: center; gap: 4px;
-        }
-        .mode-btn i { font-size: 16px; margin-bottom: 2px; }
-        .mode-btn.active {
-            background: white; color: var(--primary);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1); transform: translateY(-2px);
-        }
-        .mode-btn.register.active { color: var(--warning); }
-        .mode-btn.checkin.active { color: var(--success); }
-        .mode-btn.checkout.active { color: var(--danger); }
 
-        .camera-wrapper {
-            position: relative; width: 100%; aspect-ratio: 4/3;
-            background: #000; border-radius: 16px; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 20px;
+        .mode-btn {
+            border: none;
+            background: transparent;
+            padding: 12px 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-light);
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
         }
+
+        .mode-btn i { font-size: 18px; transition: transform 0.3s; }
+        
+        .mode-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .mode-btn:hover:not(.active) { background: rgba(255,255,255,0.4); color: var(--primary); }
+        .mode-btn.active i { transform: scale(1.1); }
+
+        /* Camera */
+        .camera-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            margin-bottom: 25px;
+            border: 4px solid white;
+        }
+
         video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+
         .overlay {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 60%; height: 60%; border: 2px solid rgba(255,255,255,0.6);
-            border-radius: 12px; box-shadow: 0 0 0 999px rgba(0,0,0,0.5);
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 65%; height: 65%;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+            transition: border-color 0.3s;
+        }
+
+        .overlay::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 20px;
+            border: 3px solid transparent;
+            border-top-color: currentColor;
+            border-bottom-color: currentColor;
+            animation: spin 4s linear infinite;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: var(--btn-radius);
+            font-size: 16px;
+            font-weight: 800;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px -5px rgba(0,0,0,0.2);
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
             pointer-events: none;
         }
-        .overlay::before {
-            content:''; position:absolute; inset:-2px; border-radius:12px;
-            border: 2px solid transparent; border-top-color: currentColor; border-bottom-color: currentColor;
-            animation: spin 3s linear infinite;
-        }
 
-        .action-btn {
-            width: 100%; padding: 16px; border: none; border-radius: 50px;
-            font-size: 16px; font-weight: 600; color: white;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            box-shadow: 0 4px 15px rgba(78, 84, 200, 0.4);
-        }
-        .action-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(78, 84, 200, 0.6); }
-        .action-btn:disabled { background: #d1d5db; cursor: not-allowed; transform: none; box-shadow: none; }
+        .action-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 12px 25px -5px rgba(0,0,0,0.3); }
+        .action-btn:active:not(:disabled) { transform: translateY(-1px); }
+        .action-btn:disabled { background: #dfe6e9; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* Màu sắc theo chế độ */
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        .btn-warning { background: linear-gradient(135deg, var(--warning), #f39c12); }
+        .btn-success { background: linear-gradient(135deg, var(--success), #00cec9); }
         
-        body.mode-register .action-btn { background: linear-gradient(135deg, var(--warning), #fbbf24); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); }
-        body.mode-checkin .action-btn { background: linear-gradient(135deg, var(--success), #34d399); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
-        body.mode-checkout .action-btn { background: linear-gradient(135deg, var(--danger), #f87171); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
         body.mode-register .overlay { color: var(--warning); }
         body.mode-checkin .overlay { color: var(--success); }
         body.mode-checkout .overlay { color: var(--danger); }
 
-        .spinner { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s infinite; display: none; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
-        .toast {
-            background: white; padding: 15px 20px; border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px;
-            min-width: 320px; transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            border-left: 5px solid;
+        /* Spinner */
+        .spinner {
+            width: 22px; height: 22px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s infinite;
+            display: none;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Toast Notification - Mềm mại hơn */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 12px; }
+        
+        .toast {
+            background: white;
+            padding: 16px 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            min-width: 320px;
+            max-width: 400px;
+            transform: translateX(120%);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            border-left: 6px solid;
+        }
+
         .toast.show { transform: translateX(0); }
         .toast.success { border-left-color: var(--success); }
         .toast.error { border-left-color: var(--danger); }
         .toast.warning { border-left-color: var(--warning); }
-        .toast-icon { font-size: 20px; }
+
+        .toast-icon { font-size: 22px; margin-top: 2px; }
         .toast.success .toast-icon { color: var(--success); }
         .toast.error .toast-icon { color: var(--danger); }
         .toast.warning .toast-icon { color: var(--warning); }
-        
-        .toast-content strong { display: block; margin-bottom: 4px; color: var(--dark); font-size: 15px; }
-        .toast-content small { color: var(--light); font-size: 11px; line-height: 1.4; display: block; margin-top: 4px; }
+
+        .toast-content strong { display: block; margin-bottom: 4px; color: var(--text-dark); font-size: 15px; font-weight: 700; }
+        .toast-content small { color: var(--text-light); font-size: 13px; line-height: 1.5; display: block; }
         
         .status-badge {
-            display: inline-block; padding: 3px 10px; border-radius: 12px;
-            font-size: 10px; font-weight: 700; margin-top: 6px; text-transform: uppercase;
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .status-badge.checkin { background: #d1fae5; color: #065f46; }
-        .status-badge.checkout { background: #fee2e2; color: #991b1b; }
+        .status-badge.checkin { background: var(--success-bg); color: var(--success); }
+        .status-badge.checkout { background: var(--danger-bg); color: var(--danger); }
 
+        /* Modal */
         .modal {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-            z-index: 2000; justify-content: center; align-items: center;
+            display: none; position: fixed; inset: 0;
+            background: rgba(45, 52, 54, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s;
         }
+        .modal.show { opacity: 1; }
+        
         .modal-content {
-            background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 400px;
-            text-align: left; animation: fadeIn 0.3s;
+            background: white;
+            padding: 35px;
+            border-radius: 24px;
+            width: 90%; max-width: 400px;
+            text-align: left;
+            transform: scale(0.9); transition: transform 0.3s;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; color: var(--dark); }
+        .modal.show .modal-content { transform: scale(1); }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--text-dark); font-size: 14px; }
         .form-group input {
-            width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px;
-            font-family: inherit; outline: none; transition: border 0.2s;
+            width: 100%; padding: 14px;
+            border: 2px solid #dfe6e9;
+            border-radius: 12px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s;
+            font-size: 14px;
         }
-        .form-group input:focus { border-color: var(--primary); }
-        .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-        .btn-confirm { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .form-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.1); }
+        
+        .modal-actions { display: flex; gap: 12px; margin-top: 25px; }
+        .btn-confirm { flex: 1; padding: 14px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
         .btn-ok { background: var(--primary); color: white; }
-        .btn-cancel { background: #e5e7eb; color: var(--dark); }
+        .btn-cancel { background: #f1f2f6; color: var(--text-light); }
+        .btn-confirm:hover { transform: translateY(-2px); }
 
         @media (max-width: 480px) {
             .toast-container { right: 50%; transform: translateX(50%); width: 90%; }
-            .mode-switcher { grid-template-columns: 1fr; }
+            .mode-switcher { grid-template-columns: 1fr; gap: 8px; }
+            .container { padding: 30px 20px; }
         }
     </style>
 </head>
@@ -141,7 +297,7 @@
 
     <div class="container">
         <div class="header">
-            <h1><i class="fas fa-id-card-clip"></i> Chấm Công AI</h1>
+            <h1><i class="fas fa-face-smile"></i> Chấm Công AI</h1>
             <p id="mode-desc">Chế độ: Check-In (Vào ca)</p>
         </div>
 
@@ -150,10 +306,10 @@
                 <i class="fas fa-user-plus"></i> Đăng Ký
             </button>
             <button class="mode-btn checkin active" onclick="setMode('checkin')">
-                <i class="fas fa-sign-in-alt"></i> Check-In
+                <i class="fas fa-door-open"></i> Check-In
             </button>
             <button class="mode-btn checkout" onclick="setMode('checkout')">
-                <i class="fas fa-sign-out-alt"></i> Check-Out
+                <i class="fas fa-door-closed"></i> Check-Out
             </button>
         </div>
 
@@ -162,14 +318,15 @@
             <div class="overlay"></div>
         </div>
 
-        <button id="actionBtn" class="action-btn" onclick="handleAction()">
+        <!-- Nút chính thay đổi màu theo mode -->
+        <button id="actionBtn" class="action-btn btn-primary" onclick="handleAction()">
             <span class="btn-text"><i class="fas fa-camera"></i> Điểm Danh Ngay</span>
             <div class="spinner"></div>
         </button>
 
-        <!-- NÚT XUẤT EXCEL -->
-        <button class="action-btn" onclick="downloadExcel()" style="margin-top: 15px; background: linear-gradient(135deg, #10b981, #34d399); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
-            <i class="fas fa-file-excel"></i> Xuất Báo Cáo Excel
+        <!-- Nút Excel luôn màu xanh ngọc -->
+        <button class="action-btn btn-success" onclick="downloadExcel()" style="margin-top: 8px; font-size: 15px;">
+            <i class="fas fa-file-excel"></i> Xuất Báo Cáo
         </button>
     </div>
 
@@ -179,9 +336,11 @@
     <!-- Modal Đăng Ký -->
     <div class="modal" id="registerModal">
         <div class="modal-content">
-            <h2 style="margin-bottom: 20px; color: var(--dark);"><i class="fas fa-user-plus" style="color: var(--warning)"></i> Đăng Ký Người Mới</h2>
+            <h2 style="margin-bottom: 25px; color: var(--text-dark); font-size: 20px; text-align: center;">
+                <i class="fas fa-user-plus" style="color: var(--warning)"></i> Đăng Ký Mới
+            </h2>
             <div class="form-group">
-                <label>Mã Nhân Viên/Sinh Viên</label>
+                <label>Mã Nhân Viên / Sinh Viên</label>
                 <input type="text" id="regId" placeholder="Ví dụ: NV001">
             </div>
             <div class="form-group">
@@ -190,7 +349,7 @@
             </div>
             <div class="modal-actions">
                 <button class="btn-confirm btn-cancel" onclick="closeModal()">Hủy</button>
-                <button class="btn-confirm btn-ok" onclick="confirmRegistration()">Chụp & Lưu</button>
+                <button class="btn-confirm btn-ok" onclick="confirmRegistration()">Lưu Thông Tin</button>
             </div>
         </div>
     </div>
@@ -211,7 +370,7 @@
                 const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } } });
                 video.srcObject = stream;
             } catch (err) {
-                showToast('error', 'Lỗi Camera', 'Không thể truy cập camera.');
+                showToast('error', 'Lỗi Camera', 'Không thể truy cập camera. Vui lòng kiểm tra quyền.');
             }
         }
         startCamera();
@@ -219,18 +378,25 @@
         function setMode(mode) {
             currentMode = mode;
             document.body.className = `mode-${mode}`;
+            
+            // Reset classes
             document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
             document.querySelector(`.mode-btn.${mode}`).classList.add('active');
 
+            // Update Text & Button Style
+            actionBtn.className = 'action-btn'; // Reset class
             if(mode === 'register') {
                 modeDesc.innerText = "Chế độ: Đăng Ký Người Mới";
                 btnText.innerHTML = '<i class="fas fa-user-plus"></i> Đăng Ký Khuôn Mặt';
+                actionBtn.classList.add('btn-warning');
             } else if (mode === 'checkin') {
                 modeDesc.innerText = "Chế độ: Check-In (Vào ca)";
-                btnText.innerHTML = '<i class="fas fa-sign-in-alt"></i> Check-In Ngay';
+                btnText.innerHTML = '<i class="fas fa-door-open"></i> Check-In Ngay';
+                actionBtn.classList.add('btn-primary');
             } else {
                 modeDesc.innerText = "Chế độ: Check-Out (Tan ca)";
-                btnText.innerHTML = '<i class="fas fa-sign-out-alt"></i> Check-Out Ngay';
+                btnText.innerHTML = '<i class="fas fa-door-closed"></i> Check-Out Ngay';
+                actionBtn.classList.add('btn-primary'); // Hoặc màu khác nếu muốn
             }
         }
 
@@ -239,18 +405,22 @@
                 document.getElementById('regId').value = '';
                 document.getElementById('regName').value = '';
                 modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('show'), 10);
                 document.getElementById('regId').focus();
             } else {
                 captureAndSend(currentMode);
             }
         }
 
-        function closeModal() { modal.style.display = 'none'; }
+        function closeModal() {
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
 
         function confirmRegistration() {
             const id = document.getElementById('regId').value.trim();
             const name = document.getElementById('regName').value.trim();
-            if (!id || !name) { alert('Vui lòng điền đầy đủ Mã và Tên!'); return; }
+            if (!id || !name) { alert('Vui lòng điền đầy đủ thông tin!'); return; }
             closeModal();
             captureAndSend('register', id, name);
         }
@@ -285,26 +455,26 @@
                 if (data.success) {
                     if (mode === 'register') {
                         showToast('success', 'Đăng Ký Thành Công', `
-                            Đã lưu khuôn mặt cho <strong>${regName}</strong> (${regId})<br>
+                            Đã lưu khuôn mặt cho <strong>${regName}</strong> (${regId})
                             <small><i class="far fa-clock"></i> ${data.timestamp || new Date().toLocaleTimeString('vi-VN')}</small>
                         `);
                     } else {
                         const badgeClass = data.type === 'CHECK_IN' ? 'checkin' : 'checkout';
-                        const badgeText = data.type === 'CHECK_IN' ? 'VÀO CA' : 'TAN CA';
+                        const badgeText = data.type === 'CHECK_IN' ? 'Vào Ca' : 'Tan Ca';
                         
                         showToast('success', 'Điểm Danh Thành Công', `
-                            <strong>${data.name}</strong> (${data.id})<br>
-                            <span class="status-badge ${badgeClass}">${badgeText}</span><br>
+                            <strong>${data.name}</strong> (${data.id})
+                            <span class="status-badge ${badgeClass}">${badgeText}</span>
                             <small><i class="far fa-clock"></i> ${data.timestamp}</small>
                         `);
                     }
                 } else {
-                    if (data.type === 'SPOOF') showToast('warning', 'Giả Mạo!', 'Phát hiện ảnh chụp/màn hình.');
+                    if (data.type === 'SPOOF') showToast('warning', 'Phát Hiện Giả Mạo', 'Vui lòng đưa khuôn mặt thật vào camera.');
                     else if (data.type === 'UNKNOWN' && mode !== 'register') showToast('error', 'Không Tìm Thấy', 'Khuôn mặt chưa được đăng ký.');
                     else showToast('error', 'Thất Bại', data.message);
                 }
             } catch (error) {
-                showToast('error', 'Lỗi Hệ Thống', error.message.includes('fetch') ? 'Mất kết nối Server' : error.message);
+                showToast('error', 'Lỗi Kết Nối', error.message.includes('fetch') ? 'Không thể kết nối Server' : error.message);
             } finally {
                 actionBtn.disabled = false;
                 btnText.style.display = 'inline-flex';
@@ -315,40 +485,29 @@
         async function downloadExcel() {
             const btn = event.currentTarget;
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tạo file...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
             btn.disabled = true;
 
             try {
                 const response = await fetch('/api/export-excel');
-                
-                if (!response.ok) {
-                    const errData = await response.json();
-                    throw new Error(errData.message || 'Không thể xuất file');
-                }
+                if (!response.ok) throw new Error('Không thể xuất file');
 
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                
                 const disposition = response.headers.get('Content-Disposition');
                 let filename = "Bao_Cao_Cham_Cong.xlsx";
                 if (disposition && disposition.indexOf('attachment') !== -1) {
-                    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                    const matches = filenameRegex.exec(disposition);
-                    if (matches != null && matches[1]) { 
-                        filename = matches[1].replace(/['"]/g, '');
-                    }
+                    const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition);
+                    if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
                 }
-                
                 a.download = filename;
                 document.body.appendChild(a);
                 a.click();
-                
                 window.URL.revokeObjectURL(url);
                 document.body.removeChild(a);
-                
-                showToast('success', 'Thành Công', 'Đã tải xuống báo cáo Excel thành công!');
+                showToast('success', 'Thành Công', 'Đã tải báo cáo Excel xuống!');
             } catch (error) {
                 showToast('error', 'Thất Bại', error.message);
             } finally {
